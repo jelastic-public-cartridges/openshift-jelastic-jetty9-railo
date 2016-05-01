@@ -1,0 +1,49 @@
+Name: railo4
+Cartridge-Short-Name: RAILO4j
+Display-Name: RAILO4j
+Description: "Railo 4.2 on Jetty9"
+Version: '9.1.3'
+License: 'LGPL V2 Open Source, Apache License 2.0, Eclipse Public License 1.0'
+License-Url: 
+Vendor: The Railo Company
+Cartridge-Version: 9.1.3
+Cartridge-Vendor: Fast Hit
+Categories:
+  - service
+  - embedded
+Source-Url: https://github.com/jelastic-public-cartridges/openshift-jelastic-jetty9-railo.git
+Website: http://www.fasthit.net/
+Help-Topics:
+  "Developer Center": http://devlab.fasthit.net
+Cart-Data:
+  - Key: OPENSHIFT_APP_DNS
+    Type: environment
+    Description: "Fully qualified domain name for the application."
+  - Key: OPENSHIFT_APP_NAME
+    Type: environment
+    Description: "Application name"
+  - Key: OPENSHIFT_DATA_DIR
+    Type: environment
+    Description: "Directory to store application data files. Preserved across git-pushes. Not shared across gears."
+  - Key: OPENSHIFT_APP_UUID
+    Type: environment
+    Description: "Unique ID which identified the application. Does not change between gears."
+  - Key: OPENSHIFT_GEAR_UUID
+    Type: environment
+    Description: "Unique ID which identified the gear. This value changes between gears."
+Provides:
+  - jetty9
+  - railo4
+  - cfml
+Scaling:
+  Min: 1
+  Max: 1
+Endpoints:
+  - Private-IP-Name:   APP_HOST
+    Private-Port-Name: APP_PORT
+    Private-Port:      8080
+    Public-Port-Name:  APP_PROXY_PORT
+  - Private-IP-Name:   AJP_HOST
+    Private-Port-Name: AJP_PORT
+    Private-Port:      8009
+    Public-Port-Name:  AJP_PROXY_PORT

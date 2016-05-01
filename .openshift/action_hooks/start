@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cd ${OPENSHIFT_RAILO4j_DIR}/versions/9.1.3/
+
+if [ -x ${OPENSHIFT_RAILO4j_DIR}/versions/9.1.3/bin/variablesparser.sh ]; then
+    . ${OPENSHIFT_RAILO4j_DIR}/versions/9.1.3/bin/variablesparser.sh
+fi
+
+[ -z "$XMS" ] && { XMS=32M; }
+[ -z "$XMN" ] && { XMN=30M; }
+[ -z "$GC" ] && { GC="-XX:+UseParNewGC"; }
+memory_total=`free -m | grep Mem | awk '{print $2}'`;
+[ -z "$XMX" ] && { let XMX=memory_total-35; XMX="${XMX}M"; }
+
+jetty_pid=`ps aux|grep java|grep jetty|grep -v grep|awk '{print $2}'`;
+
+[ -n "$jetty_pid" ] && echo "Server already started" && exit 0;
+
+CMD="java -Xms${XMS} -Xmx${XMX} -Xmn${XMN}  ${GC} ${confresult} -jar $JAVA_OPTS start.jar -Djetty.host=$OPENSHIFT_RAILO4j_APP_HOST -Djetty.port=$OPENSHIFT_RAILO4j_APP_PORT"
+
+nohup $CMD >> $OPENSHIFT_RAILO4j_LOG_DIR/server.log 2>&1 &
+
+echo $! > jetty.pid && echo "Railo server started successfully"
