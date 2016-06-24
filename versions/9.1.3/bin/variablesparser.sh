@@ -40,7 +40,7 @@ then
 fi
 export JAVA_OPTS="$JAVA_OPTS $confresult"
 
-source /opt/repo/versions/${Version}/etc/memoryConfig.sh
+source /opt/repo/versions/${Version}/bin/memoryConfig.sh
 
 export JAVA_OPTIONS=$JAVA_OPTS
 
